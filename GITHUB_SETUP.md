@@ -11,6 +11,8 @@ This guide will help you prepare your LLMShell project for GitHub release.
 - [ ] Add topics: `linux`, `shell`, `llm`, `ai`, `bash`, `natural-language`, `ollama`, `python`, `cli-tool`
 
 ### 2. Initial Upload
+
+#### Option A: If you created the GitHub repo with README/LICENSE (RECOMMENDED)
 ```bash
 cd /mnt/jakob/Development/LLMShell
 git init
@@ -18,7 +20,29 @@ git add .
 git commit -m "feat: initial release - LLMShell v0.1.0"
 git branch -M main
 git remote add origin https://github.com/YOUR_USERNAME/llmshell.git
+
+# Pull and merge the remote files first
+git pull origin main --allow-unrelated-histories --no-rebase
+
+# If there are merge conflicts, resolve them and commit
+# git add .
+# git commit -m "merge: resolve conflicts with remote repository"
+
+# Now push your changes
 git push -u origin main
+```
+
+#### Option B: If you want to overwrite the GitHub repo completely
+```bash
+cd /mnt/jakob/Development/LLMShell
+git init
+git add .
+git commit -m "feat: initial release - LLMShell v0.1.0"
+git branch -M main
+git remote add origin https://github.com/YOUR_USERNAME/llmshell.git
+
+# Force push (WARNING: This will overwrite any files in the GitHub repo)
+git push -u origin main --force
 ```
 
 ### 3. Essential GitHub Files (create these in GitHub web interface)
