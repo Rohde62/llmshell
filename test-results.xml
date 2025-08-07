@@ -1,0 +1,1508 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="21" failures="21" skipped="0" tests="75" time="6.391" timestamp="2025-08-06T20:16:26.223455+02:00" hostname="VISION"><testcase classname="tests.test_config" name="test_llm_config_defaults" time="0.001"><failure message="AssertionError: assert 'llama3:latest' == 'llama3'&#10;  &#10;  - llama3&#10;  + llama3:latest">def test_llm_config_defaults():
+        """Test LLMConfig default values."""
+        config = LLMConfig()
+        assert config.provider == "ollama"
+        assert config.base_url == "http://localhost:11434"
+&gt;       assert config.model == "llama3"
+E       AssertionError: assert 'llama3:latest' == 'llama3'
+E         
+E         - llama3
+E         + llama3:latest
+
+tests/test_config.py:24: AssertionError</failure></testcase><testcase classname="tests.test_config" name="test_execution_config_defaults" time="0.000" /><testcase classname="tests.test_config" name="test_logging_config_defaults" time="0.000" /><testcase classname="tests.test_config" name="test_main_config_defaults" time="0.001" /><testcase classname="tests.test_config" name="test_load_config_file" time="0.002" /><testcase classname="tests.test_config" name="test_load_config_file_not_found" time="0.000" /><testcase classname="tests.test_config" name="test_create_default_config" time="0.002" /><testcase classname="tests.test_config" name="test_config_with_custom_values" time="0.001" /><testcase classname="tests.test_context.TestEnhancedContextAnalyzer" name="test_initialization" time="0.001" /><testcase classname="tests.test_context.TestEnhancedContextAnalyzer" name="test_detect_python_project" time="0.001" /><testcase classname="tests.test_context.TestEnhancedContextAnalyzer" name="test_detect_node_project" time="0.001" /><testcase classname="tests.test_context.TestEnhancedContextAnalyzer" name="test_detect_rust_project" time="0.001"><failure message="AssertionError: assert None == 'Rust'&#10; +  where None = ProjectContext(project_type=&lt;ProjectType.RUST: 'rust'&gt;, confidence=0.95, root_directory=PosixPath('/tmp/tmpyxi8r5bl/ru....toml'], package_manager=None, main_language=None, dependencies=[], virtual_env=None, git_branch=None, git_status=None).main_language">self = &lt;tests.test_context.TestEnhancedContextAnalyzer object at 0x7fac7e6e2060&gt;
+enhanced_context_analyzer = &lt;llmshell.context.EnhancedContextAnalyzer object at 0x7fac7e3f6650&gt;
+sample_project_dirs = {'docker': PosixPath('/tmp/tmpyxi8r5bl/docker_project'), 'git': PosixPath('/tmp/tmpyxi8r5bl/git_project'), 'go': PosixPath('/tmp/tmpyxi8r5bl/go_project'), 'node': PosixPath('/tmp/tmpyxi8r5bl/node_project'), ...}
+
+    def test_detect_rust_project(self, enhanced_context_analyzer, sample_project_dirs):
+        """Test Rust project detection."""
+        rust_dir = sample_project_dirs["rust"]
+        context = enhanced_context_analyzer.analyze_directory(rust_dir)
+    
+        assert context.project_type == ProjectType.RUST
+        assert context.confidence &gt;= 0.8
+&gt;       assert context.main_language == "Rust"
+E       AssertionError: assert None == 'Rust'
+E        +  where None = ProjectContext(project_type=&lt;ProjectType.RUST: 'rust'&gt;, confidence=0.95, root_directory=PosixPath('/tmp/tmpyxi8r5bl/ru....toml'], package_manager=None, main_language=None, dependencies=[], virtual_env=None, git_branch=None, git_status=None).main_language
+
+tests/test_context.py:56: AssertionError</failure></testcase><testcase classname="tests.test_context.TestEnhancedContextAnalyzer" name="test_detect_go_project" time="0.001"><failure message="AssertionError: assert None == 'Go'&#10; +  where None = ProjectContext(project_type=&lt;ProjectType.GO: 'go'&gt;, confidence=0.9, root_directory=PosixPath('/tmp/tmphx55sx5g/go_proj...o.mod'], package_manager=None, main_language=None, dependencies=[], virtual_env=None, git_branch=None, git_status=None).main_language">self = &lt;tests.test_context.TestEnhancedContextAnalyzer object at 0x7fac7e5c8dd0&gt;
+enhanced_context_analyzer = &lt;llmshell.context.EnhancedContextAnalyzer object at 0x7fac7e3f6b10&gt;
+sample_project_dirs = {'docker': PosixPath('/tmp/tmphx55sx5g/docker_project'), 'git': PosixPath('/tmp/tmphx55sx5g/git_project'), 'go': PosixPath('/tmp/tmphx55sx5g/go_project'), 'node': PosixPath('/tmp/tmphx55sx5g/node_project'), ...}
+
+    def test_detect_go_project(self, enhanced_context_analyzer, sample_project_dirs):
+        """Test Go project detection."""
+        go_dir = sample_project_dirs["go"]
+        context = enhanced_context_analyzer.analyze_directory(go_dir)
+    
+        assert context.project_type == ProjectType.GO
+        assert context.confidence &gt;= 0.8
+&gt;       assert context.main_language == "Go"
+E       AssertionError: assert None == 'Go'
+E        +  where None = ProjectContext(project_type=&lt;ProjectType.GO: 'go'&gt;, confidence=0.9, root_directory=PosixPath('/tmp/tmphx55sx5g/go_proj...o.mod'], package_manager=None, main_language=None, dependencies=[], virtual_env=None, git_branch=None, git_status=None).main_language
+
+tests/test_context.py:68: AssertionError</failure></testcase><testcase classname="tests.test_context.TestEnhancedContextAnalyzer" name="test_detect_docker_project" time="0.001"><failure message="AttributeError: 'ProjectContext' object has no attribute 'config_files'">self = &lt;tests.test_context.TestEnhancedContextAnalyzer object at 0x7fac7e5c0270&gt;
+enhanced_context_analyzer = &lt;llmshell.context.EnhancedContextAnalyzer object at 0x7fac7e3aa8d0&gt;
+sample_project_dirs = {'docker': PosixPath('/tmp/tmpz8go8b_1/docker_project'), 'git': PosixPath('/tmp/tmpz8go8b_1/git_project'), 'go': PosixPath('/tmp/tmpz8go8b_1/go_project'), 'node': PosixPath('/tmp/tmpz8go8b_1/node_project'), ...}
+
+    def test_detect_docker_project(
+        self, enhanced_context_analyzer, sample_project_dirs
+    ):
+        """Test Docker project detection."""
+        docker_dir = sample_project_dirs["docker"]
+        context = enhanced_context_analyzer.analyze_directory(docker_dir)
+    
+        assert context.project_type == ProjectType.DOCKER
+        assert context.confidence &gt;= 0.8
+&gt;       assert "Dockerfile" in context.config_files
+                               ^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'ProjectContext' object has no attribute 'config_files'
+
+tests/test_context.py:81: AttributeError</failure></testcase><testcase classname="tests.test_context.TestEnhancedContextAnalyzer" name="test_detect_git_info" time="0.002" /><testcase classname="tests.test_context.TestEnhancedContextAnalyzer" name="test_detect_general_project" time="0.001"><failure message="AttributeError: type object 'ProjectType' has no attribute 'GENERAL'">self = &lt;tests.test_context.TestEnhancedContextAnalyzer object at 0x7fac7e6e9150&gt;
+enhanced_context_analyzer = &lt;llmshell.context.EnhancedContextAnalyzer object at 0x7fac7e4207c0&gt;
+temp_dir = PosixPath('/tmp/tmpaqo5l6bf')
+
+    def test_detect_general_project(self, enhanced_context_analyzer, temp_dir):
+        """Test general project detection for unknown types."""
+        # Create directory with no specific project files
+        general_dir = temp_dir / "general_project"
+        general_dir.mkdir()
+        (general_dir / "README.md").write_text("# General Project")
+        (general_dir / "data.txt").write_text("some data")
+    
+        context = enhanced_context_analyzer.analyze_directory(general_dir)
+    
+&gt;       assert context.project_type == ProjectType.GENERAL
+                                       ^^^^^^^^^^^^^^^^^^^
+E       AttributeError: type object 'ProjectType' has no attribute 'GENERAL'
+
+tests/test_context.py:109: AttributeError</failure></testcase><testcase classname="tests.test_context.TestEnhancedContextAnalyzer" name="test_get_context_for_llm" time="0.001" /><testcase classname="tests.test_context.TestEnhancedContextAnalyzer" name="test_get_command_suggestions_python" time="0.000"><error message="failed on setup with &quot;TypeError: ProjectContext.__init__() got an unexpected keyword argument 'config_files'&quot;">fixturedef = &lt;FixtureDef argname='sample_project_context' scope='function' baseid='tests'&gt;
+request = &lt;SubRequest 'sample_project_context' for &lt;Function test_get_command_suggestions_python&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+
+/home/jakob/.local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:681: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    @pytest.fixture
+    def sample_project_context() -&gt; ProjectContext:
+        """Create a sample project context."""
+&gt;       return ProjectContext(
+            project_type=ProjectType.PYTHON,
+            confidence=0.95,
+            main_language="Python",
+            package_manager="pip",
+            dependencies=["requests", "click", "pytest"],
+            virtual_env="venv",
+            git_branch="main",
+            git_status="clean",
+            config_files=["pyproject.toml", "requirements.txt"],
+            entry_points=["src/main.py"],
+        )
+E       TypeError: ProjectContext.__init__() got an unexpected keyword argument 'config_files'
+
+tests/conftest.py:223: TypeError</error></testcase><testcase classname="tests.test_context.TestEnhancedContextAnalyzer" name="test_get_command_suggestions_general" time="0.000"><failure message="AttributeError: type object 'ProjectType' has no attribute 'GENERAL'">self = &lt;tests.test_context.TestEnhancedContextAnalyzer object at 0x7fac7e68fa70&gt;
+enhanced_context_analyzer = &lt;llmshell.context.EnhancedContextAnalyzer object at 0x7fac7e3b89b0&gt;
+
+    def test_get_command_suggestions_general(self, enhanced_context_analyzer):
+        """Test command suggestions for general intents."""
+        # Create a general project context
+        general_context = ProjectContext(
+&gt;           project_type=ProjectType.GENERAL, confidence=0.5
+                         ^^^^^^^^^^^^^^^^^^^
+        )
+E       AttributeError: type object 'ProjectType' has no attribute 'GENERAL'
+
+tests/test_context.py:139: AttributeError</failure></testcase><testcase classname="tests.test_context.TestEnhancedContextAnalyzer" name="test_virtual_environment_detection" time="0.001" /><testcase classname="tests.test_context.TestEnhancedContextAnalyzer" name="test_language_detection_from_files" time="0.000" /><testcase classname="tests.test_context.TestEnhancedContextAnalyzer" name="test_dependency_parsing_python" time="0.001"><failure message="AssertionError: assert 'requests' in []&#10; +  where [] = ProjectContext(project_type=&lt;ProjectType.PYTHON: 'python'&gt;, confidence=0.9, root_directory=PosixPath('/tmp/tmpa4f1z9ib...l'], package_manager=None, main_language='Python', dependencies=[], virtual_env=None, git_branch=None, git_status=None).dependencies">self = &lt;tests.test_context.TestEnhancedContextAnalyzer object at 0x7fac7e261640&gt;
+enhanced_context_analyzer = &lt;llmshell.context.EnhancedContextAnalyzer object at 0x7fac7e55c130&gt;
+temp_dir = PosixPath('/tmp/tmpa4f1z9ib')
+
+        def test_dependency_parsing_python(self, enhanced_context_analyzer, temp_dir):
+            """Test Python dependency parsing from various files."""
+            python_dir = temp_dir / "python_deps"
+            python_dir.mkdir()
+    
+            # Test pyproject.toml parsing
+            (python_dir / "pyproject.toml").write_text(
+                """
+    [project]
+    dependencies = [
+        "requests&gt;=2.25.0",
+        "click&gt;=8.0.0",
+        "pydantic[email]&gt;=2.0.0"
+    ]
+    """
+            )
+    
+            context = enhanced_context_analyzer.analyze_directory(python_dir)
+    
+&gt;           assert "requests" in context.dependencies
+E           AssertionError: assert 'requests' in []
+E            +  where [] = ProjectContext(project_type=&lt;ProjectType.PYTHON: 'python'&gt;, confidence=0.9, root_directory=PosixPath('/tmp/tmpa4f1z9ib...l'], package_manager=None, main_language='Python', dependencies=[], virtual_env=None, git_branch=None, git_status=None).dependencies
+
+tests/test_context.py:209: AssertionError</failure></testcase><testcase classname="tests.test_context.TestEnhancedContextAnalyzer" name="test_dependency_parsing_nodejs" time="0.001" /><testcase classname="tests.test_context.TestEnhancedContextAnalyzer" name="test_error_handling_invalid_json" time="0.001"><failure message="AttributeError: type object 'ProjectType' has no attribute 'GENERAL'">self = &lt;tests.test_context.TestEnhancedContextAnalyzer object at 0x7fac7e67b290&gt;
+enhanced_context_analyzer = &lt;llmshell.context.EnhancedContextAnalyzer object at 0x7fac7e71c6d0&gt;
+temp_dir = PosixPath('/tmp/tmpu5oin4y_')
+
+    def test_error_handling_invalid_json(self, enhanced_context_analyzer, temp_dir):
+        """Test error handling for invalid JSON files."""
+        node_dir = temp_dir / "invalid_json"
+        node_dir.mkdir()
+    
+        # Create invalid package.json
+        (node_dir / "package.json").write_text("{ invalid json content")
+    
+        # Should not crash
+        context = enhanced_context_analyzer.analyze_directory(node_dir)
+&gt;       assert context.project_type in [ProjectType.NODEJS, ProjectType.GENERAL]
+                                                            ^^^^^^^^^^^^^^^^^^^
+E       AttributeError: type object 'ProjectType' has no attribute 'GENERAL'
+
+tests/test_context.py:249: AttributeError</failure></testcase><testcase classname="tests.test_context.TestEnhancedContextAnalyzer" name="test_error_handling_permission_denied" time="0.001"><failure message="PermissionError: [Errno 13] Permission denied: '/root'">self = &lt;tests.test_context.TestEnhancedContextAnalyzer object at 0x7fac7e6f59c0&gt;
+enhanced_context_analyzer = &lt;llmshell.context.EnhancedContextAnalyzer object at 0x7fac7e512f90&gt;
+
+    def test_error_handling_permission_denied(self, enhanced_context_analyzer):
+        """Test error handling for permission denied scenarios."""
+        # Try to analyze a directory we can't read
+        restricted_path = Path("/root")  # Typically not readable by normal users
+    
+        # Should not crash
+&gt;       context = enhanced_context_analyzer.analyze_directory(restricted_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_context.py:257: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+llmshell/context.py:113: in analyze_directory
+    context = self._detect_project_type(directory)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+llmshell/context.py:159: in _detect_project_type
+    elif "node_modules" in [d.name for d in directory.iterdir() if d.is_dir()]:
+                                            ^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/root')
+
+    def iterdir(self):
+        """Yield path objects of the directory contents.
+    
+        The children are yielded in arbitrary order, and the
+        special entries '.' and '..' are not included.
+        """
+        root_dir = str(self)
+&gt;       with os.scandir(root_dir) as scandir_it:
+             ^^^^^^^^^^^^^^^^^^^^
+E       PermissionError: [Errno 13] Permission denied: '/root'
+
+/usr/lib64/python3.13/pathlib/_local.py:575: PermissionError</failure></testcase><testcase classname="tests.test_context.TestEnhancedContextAnalyzer" name="test_mixed_project_detection" time="0.001" /><testcase classname="tests.test_context.TestEnhancedContextAnalyzer" name="test_entry_point_detection" time="0.001"><failure message="AttributeError: 'ProjectContext' object has no attribute 'entry_points'">self = &lt;tests.test_context.TestEnhancedContextAnalyzer object at 0x7fac7e713c50&gt;
+enhanced_context_analyzer = &lt;llmshell.context.EnhancedContextAnalyzer object at 0x7fac7e578470&gt;
+sample_project_dirs = {'docker': PosixPath('/tmp/tmphyzq5k8u/docker_project'), 'git': PosixPath('/tmp/tmphyzq5k8u/git_project'), 'go': PosixPath('/tmp/tmphyzq5k8u/go_project'), 'node': PosixPath('/tmp/tmphyzq5k8u/node_project'), ...}
+
+    def test_entry_point_detection(
+        self, enhanced_context_analyzer, sample_project_dirs
+    ):
+        """Test entry point detection for different project types."""
+        python_dir = sample_project_dirs["python"]
+        context = enhanced_context_analyzer.analyze_directory(python_dir)
+    
+&gt;       assert len(context.entry_points) &gt; 0
+                   ^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'ProjectContext' object has no attribute 'entry_points'
+
+tests/test_context.py:285: AttributeError</failure></testcase><testcase classname="tests.test_context.TestEnhancedContextAnalyzer" name="test_config_file_detection" time="0.001"><failure message="AttributeError: 'ProjectContext' object has no attribute 'config_files'">self = &lt;tests.test_context.TestEnhancedContextAnalyzer object at 0x7fac7e7127b0&gt;
+enhanced_context_analyzer = &lt;llmshell.context.EnhancedContextAnalyzer object at 0x7fac7e578890&gt;
+sample_project_dirs = {'docker': PosixPath('/tmp/tmpe4tbp73l/docker_project'), 'git': PosixPath('/tmp/tmpe4tbp73l/git_project'), 'go': PosixPath('/tmp/tmpe4tbp73l/go_project'), 'node': PosixPath('/tmp/tmpe4tbp73l/node_project'), ...}
+
+    def test_config_file_detection(
+        self, enhanced_context_analyzer, sample_project_dirs
+    ):
+        """Test configuration file detection."""
+        python_dir = sample_project_dirs["python"]
+        context = enhanced_context_analyzer.analyze_directory(python_dir)
+    
+&gt;       assert "pyproject.toml" in context.config_files
+                                   ^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'ProjectContext' object has no attribute 'config_files'
+
+tests/test_context.py:295: AttributeError</failure></testcase><testcase classname="tests.test_context.TestEnhancedContextAnalyzer" name="test_context_caching_behavior" time="0.001" /><testcase classname="tests.test_context.TestProjectContext" name="test_project_context_creation" time="0.000"><failure message="TypeError: ProjectContext.__init__() got an unexpected keyword argument 'config_files'">self = &lt;tests.test_context.TestProjectContext object at 0x7fac7e6a79d0&gt;
+
+    def test_project_context_creation(self):
+        """Test creating project contexts."""
+&gt;       context = ProjectContext(
+            project_type=ProjectType.PYTHON,
+            confidence=0.95,
+            main_language="Python",
+            package_manager="pip",
+            dependencies=["requests", "click"],
+            virtual_env="venv",
+            git_branch="main",
+            git_status="clean",
+            config_files=["pyproject.toml"],
+            entry_points=["main.py"],
+        )
+E       TypeError: ProjectContext.__init__() got an unexpected keyword argument 'config_files'
+
+tests/test_context.py:319: TypeError</failure></testcase><testcase classname="tests.test_context.TestProjectContext" name="test_project_context_defaults" time="0.000"><failure message="AttributeError: type object 'ProjectType' has no attribute 'GENERAL'">self = &lt;tests.test_context.TestProjectContext object at 0x7fac7e6a7b10&gt;
+
+    def test_project_context_defaults(self):
+        """Test project context with default values."""
+&gt;       context = ProjectContext(project_type=ProjectType.GENERAL, confidence=0.5)
+                                              ^^^^^^^^^^^^^^^^^^^
+E       AttributeError: type object 'ProjectType' has no attribute 'GENERAL'
+
+tests/test_context.py:345: AttributeError</failure></testcase><testcase classname="tests.test_context.TestProjectType" name="test_project_type_values" time="0.000"><failure message="AttributeError: type object 'ProjectType' has no attribute 'GENERAL'">self = &lt;tests.test_context.TestProjectType object at 0x7fac7e6a7c50&gt;
+
+    def test_project_type_values(self):
+        """Test project type enum values."""
+        assert ProjectType.PYTHON.value == "python"
+        assert ProjectType.NODEJS.value == "nodejs"
+        assert ProjectType.RUST.value == "rust"
+        assert ProjectType.GO.value == "go"
+        assert ProjectType.DOCKER.value == "docker"
+        assert ProjectType.GIT.value == "git"
+&gt;       assert ProjectType.GENERAL.value == "general"
+               ^^^^^^^^^^^^^^^^^^^
+E       AttributeError: type object 'ProjectType' has no attribute 'GENERAL'
+
+tests/test_context.py:368: AttributeError</failure></testcase><testcase classname="tests.test_context.TestProjectType" name="test_project_type_from_string" time="0.000"><failure message="ValueError: 'general' is not a valid ProjectType">self = &lt;tests.test_context.TestProjectType object at 0x7fac7e6a7d90&gt;
+
+    def test_project_type_from_string(self):
+        """Test creating project types from strings."""
+        assert ProjectType("python") == ProjectType.PYTHON
+        assert ProjectType("nodejs") == ProjectType.NODEJS
+&gt;       assert ProjectType("general") == ProjectType.GENERAL
+               ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_context.py:374: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib64/python3.13/enum.py:726: in __call__
+    return cls.__new__(cls, value)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = &lt;enum 'ProjectType'&gt;, value = 'general'
+
+    def __new__(cls, value):
+        # all enum instances are actually created during class construction
+        # without calling this method; this method is called by the metaclass'
+        # __call__ (i.e. Color(3) ), and by pickle
+        if type(value) is cls:
+            # For lookups like Color(Color.RED)
+            return value
+        # by-value search for a matching enum member
+        # see if it's in the reverse mapping (for hashable values)
+        try:
+            return cls._value2member_map_[value]
+        except KeyError:
+            # Not found, no need to do long O(n) search
+            pass
+        except TypeError:
+            # not there, now do long search -- O(n) behavior
+            for name, unhashable_values in cls._unhashable_values_map_.items():
+                if value in unhashable_values:
+                    return cls[name]
+            for name, member in cls._member_map_.items():
+                if value == member._value_:
+                    return cls[name]
+        # still not found -- verify that members exist, in-case somebody got here mistakenly
+        # (such as via super when trying to override __new__)
+        if not cls._member_map_:
+            if getattr(cls, '_%s__in_progress' % cls.__name__, False):
+                raise TypeError('do not use `super().__new__; call the appropriate __new__ directly') from None
+            raise TypeError("%r has no members defined" % cls)
+        #
+        # still not found -- try _missing_ hook
+        try:
+            exc = None
+            result = cls._missing_(value)
+        except Exception as e:
+            exc = e
+            result = None
+        try:
+            if isinstance(result, cls):
+                return result
+            elif (
+                    Flag is not None and issubclass(cls, Flag)
+                    and cls._boundary_ is EJECT and isinstance(result, int)
+                ):
+                return result
+            else:
+                ve_exc = ValueError("%r is not a valid %s" % (value, cls.__qualname__))
+                if result is None and exc is None:
+&gt;                   raise ve_exc
+E                   ValueError: 'general' is not a valid ProjectType
+
+/usr/lib64/python3.13/enum.py:1203: ValueError</failure></testcase><testcase classname="tests.test_core.TestShellSession" name="test_session_initialization" time="0.007" /><testcase classname="tests.test_core.TestShellSession" name="test_get_context" time="0.007" /><testcase classname="tests.test_core.TestShellSession" name="test_detect_command_type_natural" time="0.005"><failure message="AssertionError: assert 'direct' == 'natural'&#10;  &#10;  - natural&#10;  + direct">self = &lt;tests.test_core.TestShellSession object at 0x7fac7e6e28b0&gt;
+shell_session = &lt;llmshell.core.ShellSession object at 0x7fac7e3e8b90&gt;
+
+    def test_detect_command_type_natural(self, shell_session):
+        """Test natural language detection."""
+        test_cases = [
+            "please list all files",
+            "can you show me the disk usage",
+            "find all python files",
+            "what is the current directory",
+        ]
+    
+        for case in test_cases:
+&gt;           assert shell_session.detect_command_type(case) == "natural"
+E           AssertionError: assert 'direct' == 'natural'
+E             
+E             - natural
+E             + direct
+
+tests/test_core.py:46: AssertionError</failure></testcase><testcase classname="tests.test_core.TestShellSession" name="test_detect_command_type_direct" time="0.005" /><testcase classname="tests.test_core.TestShellSession" name="test_cd_command_handling" time="0.006" /><testcase classname="tests.test_core.TestShellSession" name="test_cd_command_nonexistent_directory" time="0.002"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory&quot;">fixturedef = &lt;FixtureDef argname='shell_session' scope='function' baseid='tests'&gt;
+request = &lt;SubRequest 'shell_session' for &lt;Function test_cd_command_nonexistent_directory&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+
+/home/jakob/.local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:681: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/mnt/jakob/Development/LLMShell/tests/conftest.py:93: in shell_session
+    session = ShellSession(test_config, mock_llm_provider)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/mnt/jakob/Development/LLMShell/llmshell/core.py:37: in __init__
+    self.current_directory = Path.cwd()
+                             ^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:746: in cwd
+    return cls('').absolute()
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('.')
+
+    def absolute(self):
+        """Return an absolute version of this path
+        No normalization or symlink resolution is performed.
+    
+        Use resolve() to resolve symlinks and remove '..' segments.
+        """
+        if self.is_absolute():
+            return self
+        if self.root:
+            drive = os.path.splitroot(os.getcwd())[0]
+            return self._from_parsed_parts(drive, self.root, self._tail)
+        if self.drive:
+            # There is a CWD on each drive-letter drive.
+            cwd = os.path.abspath(self.drive)
+        else:
+&gt;           cwd = os.getcwd()
+                  ^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory
+
+/usr/lib64/python3.13/pathlib/_local.py:649: FileNotFoundError</error></testcase><testcase classname="tests.test_core.TestShellSession" name="test_command_safety_analysis" time="0.002"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory&quot;">fixturedef = &lt;FixtureDef argname='shell_session' scope='function' baseid='tests'&gt;
+request = &lt;SubRequest 'shell_session' for &lt;Function test_command_safety_analysis&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+
+/home/jakob/.local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:681: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/mnt/jakob/Development/LLMShell/tests/conftest.py:93: in shell_session
+    session = ShellSession(test_config, mock_llm_provider)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/mnt/jakob/Development/LLMShell/llmshell/core.py:37: in __init__
+    self.current_directory = Path.cwd()
+                             ^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:746: in cwd
+    return cls('').absolute()
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('.')
+
+    def absolute(self):
+        """Return an absolute version of this path
+        No normalization or symlink resolution is performed.
+    
+        Use resolve() to resolve symlinks and remove '..' segments.
+        """
+        if self.is_absolute():
+            return self
+        if self.root:
+            drive = os.path.splitroot(os.getcwd())[0]
+            return self._from_parsed_parts(drive, self.root, self._tail)
+        if self.drive:
+            # There is a CWD on each drive-letter drive.
+            cwd = os.path.abspath(self.drive)
+        else:
+&gt;           cwd = os.getcwd()
+                  ^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory
+
+/usr/lib64/python3.13/pathlib/_local.py:649: FileNotFoundError</error></testcase><testcase classname="tests.test_core.TestShellSession" name="test_translate_command" time="0.002"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory&quot;">fixturedef = &lt;FixtureDef argname='shell_session' scope='function' baseid='tests'&gt;
+request = &lt;SubRequest 'shell_session' for &lt;Coroutine test_translate_command&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+
+/home/jakob/.local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:681: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/mnt/jakob/Development/LLMShell/tests/conftest.py:93: in shell_session
+    session = ShellSession(test_config, mock_llm_provider)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/mnt/jakob/Development/LLMShell/llmshell/core.py:37: in __init__
+    self.current_directory = Path.cwd()
+                             ^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:746: in cwd
+    return cls('').absolute()
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('.')
+
+    def absolute(self):
+        """Return an absolute version of this path
+        No normalization or symlink resolution is performed.
+    
+        Use resolve() to resolve symlinks and remove '..' segments.
+        """
+        if self.is_absolute():
+            return self
+        if self.root:
+            drive = os.path.splitroot(os.getcwd())[0]
+            return self._from_parsed_parts(drive, self.root, self._tail)
+        if self.drive:
+            # There is a CWD on each drive-letter drive.
+            cwd = os.path.abspath(self.drive)
+        else:
+&gt;           cwd = os.getcwd()
+                  ^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory
+
+/usr/lib64/python3.13/pathlib/_local.py:649: FileNotFoundError</error></testcase><testcase classname="tests.test_core.TestShellSession" name="test_history_recording" time="0.002"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory&quot;">fixturedef = &lt;FixtureDef argname='shell_session' scope='function' baseid='tests'&gt;
+request = &lt;SubRequest 'shell_session' for &lt;Function test_history_recording&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+
+/home/jakob/.local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:681: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/mnt/jakob/Development/LLMShell/tests/conftest.py:93: in shell_session
+    session = ShellSession(test_config, mock_llm_provider)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/mnt/jakob/Development/LLMShell/llmshell/core.py:37: in __init__
+    self.current_directory = Path.cwd()
+                             ^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:746: in cwd
+    return cls('').absolute()
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('.')
+
+    def absolute(self):
+        """Return an absolute version of this path
+        No normalization or symlink resolution is performed.
+    
+        Use resolve() to resolve symlinks and remove '..' segments.
+        """
+        if self.is_absolute():
+            return self
+        if self.root:
+            drive = os.path.splitroot(os.getcwd())[0]
+            return self._from_parsed_parts(drive, self.root, self._tail)
+        if self.drive:
+            # There is a CWD on each drive-letter drive.
+            cwd = os.path.abspath(self.drive)
+        else:
+&gt;           cwd = os.getcwd()
+                  ^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory
+
+/usr/lib64/python3.13/pathlib/_local.py:649: FileNotFoundError</error></testcase><testcase classname="tests.test_core.TestShellSession" name="test_model_switching" time="0.002"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory&quot;">fixturedef = &lt;FixtureDef argname='shell_session' scope='function' baseid='tests'&gt;
+request = &lt;SubRequest 'shell_session' for &lt;Coroutine test_model_switching&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+
+/home/jakob/.local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:681: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/mnt/jakob/Development/LLMShell/tests/conftest.py:93: in shell_session
+    session = ShellSession(test_config, mock_llm_provider)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/mnt/jakob/Development/LLMShell/llmshell/core.py:37: in __init__
+    self.current_directory = Path.cwd()
+                             ^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:746: in cwd
+    return cls('').absolute()
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('.')
+
+    def absolute(self):
+        """Return an absolute version of this path
+        No normalization or symlink resolution is performed.
+    
+        Use resolve() to resolve symlinks and remove '..' segments.
+        """
+        if self.is_absolute():
+            return self
+        if self.root:
+            drive = os.path.splitroot(os.getcwd())[0]
+            return self._from_parsed_parts(drive, self.root, self._tail)
+        if self.drive:
+            # There is a CWD on each drive-letter drive.
+            cwd = os.path.abspath(self.drive)
+        else:
+&gt;           cwd = os.getcwd()
+                  ^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory
+
+/usr/lib64/python3.13/pathlib/_local.py:649: FileNotFoundError</error></testcase><testcase classname="tests.test_core.TestShellSession" name="test_special_command_handling" time="0.002"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory&quot;">fixturedef = &lt;FixtureDef argname='shell_session' scope='function' baseid='tests'&gt;
+request = &lt;SubRequest 'shell_session' for &lt;Function test_special_command_handling&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+
+/home/jakob/.local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:681: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/mnt/jakob/Development/LLMShell/tests/conftest.py:93: in shell_session
+    session = ShellSession(test_config, mock_llm_provider)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/mnt/jakob/Development/LLMShell/llmshell/core.py:37: in __init__
+    self.current_directory = Path.cwd()
+                             ^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:746: in cwd
+    return cls('').absolute()
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('.')
+
+    def absolute(self):
+        """Return an absolute version of this path
+        No normalization or symlink resolution is performed.
+    
+        Use resolve() to resolve symlinks and remove '..' segments.
+        """
+        if self.is_absolute():
+            return self
+        if self.root:
+            drive = os.path.splitroot(os.getcwd())[0]
+            return self._from_parsed_parts(drive, self.root, self._tail)
+        if self.drive:
+            # There is a CWD on each drive-letter drive.
+            cwd = os.path.abspath(self.drive)
+        else:
+&gt;           cwd = os.getcwd()
+                  ^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory
+
+/usr/lib64/python3.13/pathlib/_local.py:649: FileNotFoundError</error></testcase><testcase classname="tests.test_core.TestShellSession" name="test_natural_language_processing" time="0.002"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory&quot;">fixturedef = &lt;FixtureDef argname='shell_session' scope='function' baseid='tests'&gt;
+request = &lt;SubRequest 'shell_session' for &lt;Coroutine test_natural_language_processing&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+
+/home/jakob/.local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:681: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/mnt/jakob/Development/LLMShell/tests/conftest.py:93: in shell_session
+    session = ShellSession(test_config, mock_llm_provider)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/mnt/jakob/Development/LLMShell/llmshell/core.py:37: in __init__
+    self.current_directory = Path.cwd()
+                             ^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:746: in cwd
+    return cls('').absolute()
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('.')
+
+    def absolute(self):
+        """Return an absolute version of this path
+        No normalization or symlink resolution is performed.
+    
+        Use resolve() to resolve symlinks and remove '..' segments.
+        """
+        if self.is_absolute():
+            return self
+        if self.root:
+            drive = os.path.splitroot(os.getcwd())[0]
+            return self._from_parsed_parts(drive, self.root, self._tail)
+        if self.drive:
+            # There is a CWD on each drive-letter drive.
+            cwd = os.path.abspath(self.drive)
+        else:
+&gt;           cwd = os.getcwd()
+                  ^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory
+
+/usr/lib64/python3.13/pathlib/_local.py:649: FileNotFoundError</error></testcase><testcase classname="tests.test_core.TestShellSession" name="test_direct_command_processing" time="0.002"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory&quot;">fixturedef = &lt;FixtureDef argname='shell_session' scope='function' baseid='tests'&gt;
+request = &lt;SubRequest 'shell_session' for &lt;Coroutine test_direct_command_processing&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+
+/home/jakob/.local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:681: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/mnt/jakob/Development/LLMShell/tests/conftest.py:93: in shell_session
+    session = ShellSession(test_config, mock_llm_provider)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/mnt/jakob/Development/LLMShell/llmshell/core.py:37: in __init__
+    self.current_directory = Path.cwd()
+                             ^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:746: in cwd
+    return cls('').absolute()
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('.')
+
+    def absolute(self):
+        """Return an absolute version of this path
+        No normalization or symlink resolution is performed.
+    
+        Use resolve() to resolve symlinks and remove '..' segments.
+        """
+        if self.is_absolute():
+            return self
+        if self.root:
+            drive = os.path.splitroot(os.getcwd())[0]
+            return self._from_parsed_parts(drive, self.root, self._tail)
+        if self.drive:
+            # There is a CWD on each drive-letter drive.
+            cwd = os.path.abspath(self.drive)
+        else:
+&gt;           cwd = os.getcwd()
+                  ^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory
+
+/usr/lib64/python3.13/pathlib/_local.py:649: FileNotFoundError</error></testcase><testcase classname="tests.test_core.TestShellSession" name="test_context_refresh_on_cd" time="0.002"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory&quot;">fixturedef = &lt;FixtureDef argname='shell_session' scope='function' baseid='tests'&gt;
+request = &lt;SubRequest 'shell_session' for &lt;Function test_context_refresh_on_cd&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+
+/home/jakob/.local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:681: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/mnt/jakob/Development/LLMShell/tests/conftest.py:93: in shell_session
+    session = ShellSession(test_config, mock_llm_provider)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/mnt/jakob/Development/LLMShell/llmshell/core.py:37: in __init__
+    self.current_directory = Path.cwd()
+                             ^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:746: in cwd
+    return cls('').absolute()
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('.')
+
+    def absolute(self):
+        """Return an absolute version of this path
+        No normalization or symlink resolution is performed.
+    
+        Use resolve() to resolve symlinks and remove '..' segments.
+        """
+        if self.is_absolute():
+            return self
+        if self.root:
+            drive = os.path.splitroot(os.getcwd())[0]
+            return self._from_parsed_parts(drive, self.root, self._tail)
+        if self.drive:
+            # There is a CWD on each drive-letter drive.
+            cwd = os.path.abspath(self.drive)
+        else:
+&gt;           cwd = os.getcwd()
+                  ^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory
+
+/usr/lib64/python3.13/pathlib/_local.py:649: FileNotFoundError</error></testcase><testcase classname="tests.test_core.TestShellSession" name="test_history_commands" time="0.002"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory&quot;">fixturedef = &lt;FixtureDef argname='shell_session' scope='function' baseid='tests'&gt;
+request = &lt;SubRequest 'shell_session' for &lt;Function test_history_commands&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+
+/home/jakob/.local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:681: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/mnt/jakob/Development/LLMShell/tests/conftest.py:93: in shell_session
+    session = ShellSession(test_config, mock_llm_provider)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/mnt/jakob/Development/LLMShell/llmshell/core.py:37: in __init__
+    self.current_directory = Path.cwd()
+                             ^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:746: in cwd
+    return cls('').absolute()
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('.')
+
+    def absolute(self):
+        """Return an absolute version of this path
+        No normalization or symlink resolution is performed.
+    
+        Use resolve() to resolve symlinks and remove '..' segments.
+        """
+        if self.is_absolute():
+            return self
+        if self.root:
+            drive = os.path.splitroot(os.getcwd())[0]
+            return self._from_parsed_parts(drive, self.root, self._tail)
+        if self.drive:
+            # There is a CWD on each drive-letter drive.
+            cwd = os.path.abspath(self.drive)
+        else:
+&gt;           cwd = os.getcwd()
+                  ^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory
+
+/usr/lib64/python3.13/pathlib/_local.py:649: FileNotFoundError</error></testcase><testcase classname="tests.test_core.TestShellSession" name="test_context_commands" time="0.002"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory&quot;">fixturedef = &lt;FixtureDef argname='shell_session' scope='function' baseid='tests'&gt;
+request = &lt;SubRequest 'shell_session' for &lt;Function test_context_commands&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+
+/home/jakob/.local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:681: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/mnt/jakob/Development/LLMShell/tests/conftest.py:93: in shell_session
+    session = ShellSession(test_config, mock_llm_provider)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/mnt/jakob/Development/LLMShell/llmshell/core.py:37: in __init__
+    self.current_directory = Path.cwd()
+                             ^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:746: in cwd
+    return cls('').absolute()
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('.')
+
+    def absolute(self):
+        """Return an absolute version of this path
+        No normalization or symlink resolution is performed.
+    
+        Use resolve() to resolve symlinks and remove '..' segments.
+        """
+        if self.is_absolute():
+            return self
+        if self.root:
+            drive = os.path.splitroot(os.getcwd())[0]
+            return self._from_parsed_parts(drive, self.root, self._tail)
+        if self.drive:
+            # There is a CWD on each drive-letter drive.
+            cwd = os.path.abspath(self.drive)
+        else:
+&gt;           cwd = os.getcwd()
+                  ^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory
+
+/usr/lib64/python3.13/pathlib/_local.py:649: FileNotFoundError</error></testcase><testcase classname="tests.test_core.TestShellSession" name="test_suggestion_commands" time="0.002"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory&quot;">fixturedef = &lt;FixtureDef argname='shell_session' scope='function' baseid='tests'&gt;
+request = &lt;SubRequest 'shell_session' for &lt;Coroutine test_suggestion_commands&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+
+/home/jakob/.local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:681: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/mnt/jakob/Development/LLMShell/tests/conftest.py:93: in shell_session
+    session = ShellSession(test_config, mock_llm_provider)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/mnt/jakob/Development/LLMShell/llmshell/core.py:37: in __init__
+    self.current_directory = Path.cwd()
+                             ^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:746: in cwd
+    return cls('').absolute()
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('.')
+
+    def absolute(self):
+        """Return an absolute version of this path
+        No normalization or symlink resolution is performed.
+    
+        Use resolve() to resolve symlinks and remove '..' segments.
+        """
+        if self.is_absolute():
+            return self
+        if self.root:
+            drive = os.path.splitroot(os.getcwd())[0]
+            return self._from_parsed_parts(drive, self.root, self._tail)
+        if self.drive:
+            # There is a CWD on each drive-letter drive.
+            cwd = os.path.abspath(self.drive)
+        else:
+&gt;           cwd = os.getcwd()
+                  ^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory
+
+/usr/lib64/python3.13/pathlib/_local.py:649: FileNotFoundError</error></testcase><testcase classname="tests.test_core.TestShellSession" name="test_error_handling_in_execution" time="0.002"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory&quot;">fixturedef = &lt;FixtureDef argname='shell_session' scope='function' baseid='tests'&gt;
+request = &lt;SubRequest 'shell_session' for &lt;Function test_error_handling_in_execution&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+
+/home/jakob/.local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:681: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/mnt/jakob/Development/LLMShell/tests/conftest.py:93: in shell_session
+    session = ShellSession(test_config, mock_llm_provider)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/mnt/jakob/Development/LLMShell/llmshell/core.py:37: in __init__
+    self.current_directory = Path.cwd()
+                             ^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:746: in cwd
+    return cls('').absolute()
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('.')
+
+    def absolute(self):
+        """Return an absolute version of this path
+        No normalization or symlink resolution is performed.
+    
+        Use resolve() to resolve symlinks and remove '..' segments.
+        """
+        if self.is_absolute():
+            return self
+        if self.root:
+            drive = os.path.splitroot(os.getcwd())[0]
+            return self._from_parsed_parts(drive, self.root, self._tail)
+        if self.drive:
+            # There is a CWD on each drive-letter drive.
+            cwd = os.path.abspath(self.drive)
+        else:
+&gt;           cwd = os.getcwd()
+                  ^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory
+
+/usr/lib64/python3.13/pathlib/_local.py:649: FileNotFoundError</error></testcase><testcase classname="tests.test_core.TestShellSession" name="test_history_memory_management" time="0.002"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory&quot;">fixturedef = &lt;FixtureDef argname='shell_session' scope='function' baseid='tests'&gt;
+request = &lt;SubRequest 'shell_session' for &lt;Function test_history_memory_management&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+
+/home/jakob/.local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:681: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/mnt/jakob/Development/LLMShell/tests/conftest.py:93: in shell_session
+    session = ShellSession(test_config, mock_llm_provider)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/mnt/jakob/Development/LLMShell/llmshell/core.py:37: in __init__
+    self.current_directory = Path.cwd()
+                             ^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:746: in cwd
+    return cls('').absolute()
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('.')
+
+    def absolute(self):
+        """Return an absolute version of this path
+        No normalization or symlink resolution is performed.
+    
+        Use resolve() to resolve symlinks and remove '..' segments.
+        """
+        if self.is_absolute():
+            return self
+        if self.root:
+            drive = os.path.splitroot(os.getcwd())[0]
+            return self._from_parsed_parts(drive, self.root, self._tail)
+        if self.drive:
+            # There is a CWD on each drive-letter drive.
+            cwd = os.path.abspath(self.drive)
+        else:
+&gt;           cwd = os.getcwd()
+                  ^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory
+
+/usr/lib64/python3.13/pathlib/_local.py:649: FileNotFoundError</error></testcase><testcase classname="tests.test_core.TestSessionContextLoading" name="test_load_session_context" time="0.002"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory&quot;">fixturedef = &lt;FixtureDef argname='shell_session' scope='function' baseid='tests'&gt;
+request = &lt;SubRequest 'shell_session' for &lt;Function test_load_session_context&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+
+/home/jakob/.local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:681: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/mnt/jakob/Development/LLMShell/tests/conftest.py:93: in shell_session
+    session = ShellSession(test_config, mock_llm_provider)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/mnt/jakob/Development/LLMShell/llmshell/core.py:37: in __init__
+    self.current_directory = Path.cwd()
+                             ^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:746: in cwd
+    return cls('').absolute()
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('.')
+
+    def absolute(self):
+        """Return an absolute version of this path
+        No normalization or symlink resolution is performed.
+    
+        Use resolve() to resolve symlinks and remove '..' segments.
+        """
+        if self.is_absolute():
+            return self
+        if self.root:
+            drive = os.path.splitroot(os.getcwd())[0]
+            return self._from_parsed_parts(drive, self.root, self._tail)
+        if self.drive:
+            # There is a CWD on each drive-letter drive.
+            cwd = os.path.abspath(self.drive)
+        else:
+&gt;           cwd = os.getcwd()
+                  ^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory
+
+/usr/lib64/python3.13/pathlib/_local.py:649: FileNotFoundError</error></testcase><testcase classname="tests.test_core.TestSessionContextLoading" name="test_session_persistence_across_restarts" time="0.002"><failure message="FileNotFoundError: [Errno 2] No such file or directory">self = &lt;tests.test_core.TestSessionContextLoading object at 0x7fac7e5a8910&gt;
+temp_dir = PosixPath('/tmp/tmpemfud6r1')
+test_config = LLMShellConfig(llm=LLMConfig(provider='ollama', base_url='http://localhost:11434', model='llama3:latest', timeout=30, ... };:', 'chmod -R 777', 'chown -R'], timeout=30), logging=LoggingConfig(level='INFO', log_commands=True, log_file=None))
+mock_llm_provider = &lt;MagicMock spec='LLMProvider' id='140378829231776'&gt;
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7fac7e51f150&gt;
+
+    def test_session_persistence_across_restarts(
+        self, temp_dir, test_config, mock_llm_provider, monkeypatch
+    ):
+        """Test that session data persists across shell restarts."""
+        monkeypatch.setenv("HOME", str(temp_dir))
+    
+        # Create first session and add some history
+&gt;       session1 = ShellSession(test_config, mock_llm_provider)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+/mnt/jakob/Development/LLMShell/tests/test_core.py:254: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/mnt/jakob/Development/LLMShell/llmshell/core.py:37: in __init__
+    self.current_directory = Path.cwd()
+                             ^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:746: in cwd
+    return cls('').absolute()
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('.')
+
+    def absolute(self):
+        """Return an absolute version of this path
+        No normalization or symlink resolution is performed.
+    
+        Use resolve() to resolve symlinks and remove '..' segments.
+        """
+        if self.is_absolute():
+            return self
+        if self.root:
+            drive = os.path.splitroot(os.getcwd())[0]
+            return self._from_parsed_parts(drive, self.root, self._tail)
+        if self.drive:
+            # There is a CWD on each drive-letter drive.
+            cwd = os.path.abspath(self.drive)
+        else:
+&gt;           cwd = os.getcwd()
+                  ^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory
+
+/usr/lib64/python3.13/pathlib/_local.py:649: FileNotFoundError</failure></testcase><testcase classname="tests.test_core.TestAsyncShellOperations" name="test_concurrent_translation_requests" time="0.002"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory&quot;">fixturedef = &lt;FixtureDef argname='shell_session' scope='function' baseid='tests'&gt;
+request = &lt;SubRequest 'shell_session' for &lt;Coroutine test_concurrent_translation_requests&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+
+/home/jakob/.local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:681: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/mnt/jakob/Development/LLMShell/tests/conftest.py:93: in shell_session
+    session = ShellSession(test_config, mock_llm_provider)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/mnt/jakob/Development/LLMShell/llmshell/core.py:37: in __init__
+    self.current_directory = Path.cwd()
+                             ^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:746: in cwd
+    return cls('').absolute()
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('.')
+
+    def absolute(self):
+        """Return an absolute version of this path
+        No normalization or symlink resolution is performed.
+    
+        Use resolve() to resolve symlinks and remove '..' segments.
+        """
+        if self.is_absolute():
+            return self
+        if self.root:
+            drive = os.path.splitroot(os.getcwd())[0]
+            return self._from_parsed_parts(drive, self.root, self._tail)
+        if self.drive:
+            # There is a CWD on each drive-letter drive.
+            cwd = os.path.abspath(self.drive)
+        else:
+&gt;           cwd = os.getcwd()
+                  ^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory
+
+/usr/lib64/python3.13/pathlib/_local.py:649: FileNotFoundError</error></testcase><testcase classname="tests.test_core.TestAsyncShellOperations" name="test_llm_provider_error_handling" time="0.002"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory&quot;">fixturedef = &lt;FixtureDef argname='shell_session' scope='function' baseid='tests'&gt;
+request = &lt;SubRequest 'shell_session' for &lt;Coroutine test_llm_provider_error_handling&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+
+/home/jakob/.local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:681: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/mnt/jakob/Development/LLMShell/tests/conftest.py:93: in shell_session
+    session = ShellSession(test_config, mock_llm_provider)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/mnt/jakob/Development/LLMShell/llmshell/core.py:37: in __init__
+    self.current_directory = Path.cwd()
+                             ^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:746: in cwd
+    return cls('').absolute()
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('.')
+
+    def absolute(self):
+        """Return an absolute version of this path
+        No normalization or symlink resolution is performed.
+    
+        Use resolve() to resolve symlinks and remove '..' segments.
+        """
+        if self.is_absolute():
+            return self
+        if self.root:
+            drive = os.path.splitroot(os.getcwd())[0]
+            return self._from_parsed_parts(drive, self.root, self._tail)
+        if self.drive:
+            # There is a CWD on each drive-letter drive.
+            cwd = os.path.abspath(self.drive)
+        else:
+&gt;           cwd = os.getcwd()
+                  ^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory
+
+/usr/lib64/python3.13/pathlib/_local.py:649: FileNotFoundError</error></testcase><testcase classname="tests.test_core.TestAsyncShellOperations" name="test_model_list_error_handling" time="0.002"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory&quot;">fixturedef = &lt;FixtureDef argname='shell_session' scope='function' baseid='tests'&gt;
+request = &lt;SubRequest 'shell_session' for &lt;Coroutine test_model_list_error_handling&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+
+/home/jakob/.local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:681: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/mnt/jakob/Development/LLMShell/tests/conftest.py:93: in shell_session
+    session = ShellSession(test_config, mock_llm_provider)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/mnt/jakob/Development/LLMShell/llmshell/core.py:37: in __init__
+    self.current_directory = Path.cwd()
+                             ^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:746: in cwd
+    return cls('').absolute()
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('.')
+
+    def absolute(self):
+        """Return an absolute version of this path
+        No normalization or symlink resolution is performed.
+    
+        Use resolve() to resolve symlinks and remove '..' segments.
+        """
+        if self.is_absolute():
+            return self
+        if self.root:
+            drive = os.path.splitroot(os.getcwd())[0]
+            return self._from_parsed_parts(drive, self.root, self._tail)
+        if self.drive:
+            # There is a CWD on each drive-letter drive.
+            cwd = os.path.abspath(self.drive)
+        else:
+&gt;           cwd = os.getcwd()
+                  ^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory
+
+/usr/lib64/python3.13/pathlib/_local.py:649: FileNotFoundError</error></testcase><testcase classname="tests.test_core.TestAsyncShellOperations" name="test_background_operations" time="0.002"><error message="failed on setup with &quot;FileNotFoundError: [Errno 2] No such file or directory&quot;">fixturedef = &lt;FixtureDef argname='shell_session' scope='function' baseid='tests'&gt;
+request = &lt;SubRequest 'shell_session' for &lt;Coroutine test_background_operations&gt;&gt;
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -&gt; object | None:
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+&gt;               return (yield)
+                        ^^^^^
+
+/home/jakob/.local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:681: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/mnt/jakob/Development/LLMShell/tests/conftest.py:93: in shell_session
+    session = ShellSession(test_config, mock_llm_provider)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/mnt/jakob/Development/LLMShell/llmshell/core.py:37: in __init__
+    self.current_directory = Path.cwd()
+                             ^^^^^^^^^^
+/usr/lib64/python3.13/pathlib/_abc.py:746: in cwd
+    return cls('').absolute()
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('.')
+
+    def absolute(self):
+        """Return an absolute version of this path
+        No normalization or symlink resolution is performed.
+    
+        Use resolve() to resolve symlinks and remove '..' segments.
+        """
+        if self.is_absolute():
+            return self
+        if self.root:
+            drive = os.path.splitroot(os.getcwd())[0]
+            return self._from_parsed_parts(drive, self.root, self._tail)
+        if self.drive:
+            # There is a CWD on each drive-letter drive.
+            cwd = os.path.abspath(self.drive)
+        else:
+&gt;           cwd = os.getcwd()
+                  ^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory
+
+/usr/lib64/python3.13/pathlib/_local.py:649: FileNotFoundError</error></testcase><testcase classname="tests.test_history.TestHistoryManager" name="test_initialization" time="0.001" /><testcase classname="tests.test_history.TestHistoryManager" name="test_add_entry" time="0.001" /><testcase classname="tests.test_history.TestHistoryManager" name="test_get_recent_entries" time="0.001" /><testcase classname="tests.test_history.TestHistoryManager" name="test_search_history" time="0.001" /><testcase classname="tests.test_history.TestHistoryManager" name="test_get_similar_commands" time="0.001" /><testcase classname="tests.test_history.TestHistoryManager" name="test_get_statistics" time="0.001"><failure message="AttributeError: 'HistoryManager' object has no attribute 'get_statistics'">self = &lt;tests.test_history.TestHistoryManager object at 0x7fac7e5c06b0&gt;
+history_manager = &lt;llmshell.history.HistoryManager object at 0x7fac7e47df40&gt;
+
+    def test_get_statistics(self, history_manager):
+        """Test getting history statistics."""
+        # Add entries with different success rates and types
+        entries_data = [
+            (True, "natural", 100),
+            (True, "direct", 150),
+            (False, "natural", 200),
+            (True, "natural", 120),
+            (False, "direct", 180),
+        ]
+    
+        for success, cmd_type, exec_time in entries_data:
+            entry = HistoryEntry(
+                user_input="test command",
+                translated_command="test cmd",
+                command_type=cmd_type,
+                success=success,
+                execution_time_ms=exec_time,
+                working_directory="/home/user",
+                exit_code=0 if success else 1,
+            )
+            history_manager.add_entry(entry)
+    
+&gt;       stats = history_manager.get_statistics()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'HistoryManager' object has no attribute 'get_statistics'
+
+/mnt/jakob/Development/LLMShell/tests/test_history.py:153: AttributeError</failure></testcase><testcase classname="tests.test_history.TestHistoryManager" name="test_export_history" time="0.002"><failure message="AssertionError: assert 'metadata' in [{'command_type': 'direct', 'error_message': '', 'execution_time_ms': 100, 'exit_code': 0, ...}, {'command_type': 'dir..., 'exit_code': 0, ...}, {'command_type': 'direct', 'error_message': '', 'execution_time_ms': 100, 'exit_code': 0, ...}]">self = &lt;tests.test_history.TestHistoryManager object at 0x7fac7e5c0e20&gt;
+history_manager = &lt;llmshell.history.HistoryManager object at 0x7fac7e47e4e0&gt;
+temp_dir = PosixPath('/tmp/tmpynrkzjj7')
+
+    def test_export_history(self, history_manager, temp_dir):
+        """Test exporting history to file."""
+        # Add some entries
+        for i in range(3):
+            entry = HistoryEntry(
+                user_input=f"command {i}",
+                translated_command=f"cmd{i}",
+                command_type="direct",
+                success=True,
+                execution_time_ms=100,
+                working_directory="/home/user",
+                exit_code=0,
+            )
+            history_manager.add_entry(entry)
+    
+        # Export to file
+        export_file = temp_dir / "history_export.json"
+        success = history_manager.export_history(export_file)
+    
+        assert success is True
+        assert export_file.exists()
+    
+        # Check file content
+        import json
+    
+        with open(export_file) as f:
+            data = json.load(f)
+    
+&gt;       assert "metadata" in data
+E       AssertionError: assert 'metadata' in [{'command_type': 'direct', 'error_message': '', 'execution_time_ms': 100, 'exit_code': 0, ...}, {'command_type': 'dir..., 'exit_code': 0, ...}, {'command_type': 'direct', 'error_message': '', 'execution_time_ms': 100, 'exit_code': 0, ...}]
+
+/mnt/jakob/Development/LLMShell/tests/test_history.py:190: AssertionError</failure></testcase><testcase classname="tests.test_history.TestHistoryManager" name="test_clear_history" time="0.001" /><testcase classname="tests.test_history.TestHistoryManager" name="test_database_persistence" time="0.001" /><testcase classname="tests.test_history.TestHistoryManager" name="test_error_handling_invalid_export_path" time="0.001" /><testcase classname="tests.test_history.TestHistoryManager" name="test_entries_with_special_characters" time="0.001" /><testcase classname="tests.test_history.TestHistoryManager" name="test_history_size_limits" time="0.008"><failure message="AttributeError: 'HistoryManager' object has no attribute 'get_statistics'">self = &lt;tests.test_history.TestHistoryManager object at 0x7fac7e557d90&gt;
+history_manager = &lt;llmshell.history.HistoryManager object at 0x7fac7e47e7b0&gt;
+
+    def test_history_size_limits(self, history_manager):
+        """Test behavior with large history."""
+        # Add many entries to test performance
+        entries_count = 100
+    
+        for i in range(entries_count):
+            entry = HistoryEntry(
+                user_input=f"bulk command {i}",
+                translated_command=f"bulk cmd {i}",
+                command_type="direct" if i % 2 == 0 else "natural",
+                success=i % 3 != 0,  # Mix of success/failure
+                execution_time_ms=100 + i,
+                working_directory="/home/user",
+                exit_code=0 if i % 3 != 0 else 1,
+            )
+            history_manager.add_entry(entry)
+    
+        # Test that retrieval still works efficiently
+        recent = history_manager.get_recent_entries(limit=10)
+        assert len(recent) == 10
+    
+        # Test search still works
+        search_results = history_manager.search_history("bulk")
+        assert len(search_results) &gt; 0
+    
+        # Test statistics calculation
+&gt;       stats = history_manager.get_statistics()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'HistoryManager' object has no attribute 'get_statistics'
+
+/mnt/jakob/Development/LLMShell/tests/test_history.py:301: AttributeError</failure></testcase><testcase classname="tests.test_history.TestHistoryManager" name="test_timestamp_ordering" time="0.031" /><testcase classname="tests.test_history.TestHistoryEntry" name="test_history_entry_creation" time="0.000" /><testcase classname="tests.test_history.TestHistoryEntry" name="test_history_entry_defaults" time="0.000" /><testcase classname="tests.test_history.TestHistoryEntry" name="test_command_type_enum" time="0.000"><failure message="AttributeError: type object 'CommandType' has no attribute 'BUILTIN'">self = &lt;tests.test_history.TestHistoryEntry object at 0x7fac7e6e3100&gt;
+
+    def test_command_type_enum(self):
+        """Test CommandType enum values."""
+        assert CommandType.NATURAL.value == "natural"
+        assert CommandType.DIRECT.value == "direct"
+&gt;       assert CommandType.BUILTIN.value == "builtin"
+               ^^^^^^^^^^^^^^^^^^^
+E       AttributeError: type object 'CommandType' has no attribute 'BUILTIN'
+
+/mnt/jakob/Development/LLMShell/tests/test_history.py:390: AttributeError</failure></testcase><testcase classname="pytest" name="internal" time="0.000"><error message="internal error">Traceback (most recent call last):
+  File "/home/jakob/.local/lib/python3.13/site-packages/coverage/sqlitedb.py", line 115, in _execute
+    return self.con.execute(sql, parameters)    # type: ignore[arg-type]
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: coverage_schema
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/jakob/.local/lib/python3.13/site-packages/coverage/sqlitedb.py", line 120, in _execute
+    return self.con.execute(sql, parameters)    # type: ignore[arg-type]
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: coverage_schema
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/jakob/.local/lib/python3.13/site-packages/coverage/sqldata.py", line 292, in _read_db
+    row = db.execute_one("select version from coverage_schema")
+  File "/home/jakob/.local/lib/python3.13/site-packages/coverage/sqlitedb.py", line 187, in execute_one
+    with self.execute(sql, parameters) as cur:
+         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.13/contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "/home/jakob/.local/lib/python3.13/site-packages/coverage/sqlitedb.py", line 150, in execute
+    cur = self._execute(sql, parameters)
+  File "/home/jakob/.local/lib/python3.13/site-packages/coverage/sqlitedb.py", line 138, in _execute
+    raise DataError(f"Couldn't use data file {self.filename!r}: {msg}") from exc
+coverage.exceptions.DataError: Couldn't use data file '/mnt/jakob/Development/LLMShell/.coverage.VISION.32805.XLnyafax.c': no such table: coverage_schema
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/jakob/.local/lib/python3.13/site-packages/_pytest/main.py", line 289, in wrap_session
+    session.exitstatus = doit(config, session) or 0
+                         ~~~~^^^^^^^^^^^^^^^^^
+  File "/home/jakob/.local/lib/python3.13/site-packages/_pytest/main.py", line 343, in _main
+    config.hook.pytest_runtestloop(session=session)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/jakob/.local/lib/python3.13/site-packages/pluggy/_hooks.py", line 512, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jakob/.local/lib/python3.13/site-packages/pluggy/_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jakob/.local/lib/python3.13/site-packages/pluggy/_callers.py", line 167, in _multicall
+    raise exception
+  File "/home/jakob/.local/lib/python3.13/site-packages/pluggy/_callers.py", line 139, in _multicall
+    teardown.throw(exception)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/jakob/.local/lib/python3.13/site-packages/_pytest/logging.py", line 801, in pytest_runtestloop
+    return (yield)  # Run all the tests.
+            ^^^^^
+  File "/home/jakob/.local/lib/python3.13/site-packages/pluggy/_callers.py", line 139, in _multicall
+    teardown.throw(exception)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/jakob/.local/lib/python3.13/site-packages/_pytest/terminal.py", line 688, in pytest_runtestloop
+    result = yield
+             ^^^^^
+  File "/home/jakob/.local/lib/python3.13/site-packages/pluggy/_callers.py", line 152, in _multicall
+    teardown.send(result)
+    ~~~~~~~~~~~~~^^^^^^^^
+  File "/home/jakob/.local/lib/python3.13/site-packages/pytest_cov/plugin.py", line 346, in pytest_runtestloop
+    self.cov_controller.finish()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/jakob/.local/lib/python3.13/site-packages/pytest_cov/engine.py", line 57, in ensure_topdir_wrapper
+    return meth(self, *args, **kwargs)
+  File "/home/jakob/.local/lib/python3.13/site-packages/pytest_cov/engine.py", line 316, in finish
+    self.cov.save()
+    ~~~~~~~~~~~~~^^
+  File "/home/jakob/.local/lib/python3.13/site-packages/coverage/control.py", line 818, in save
+    data = self.get_data()
+  File "/home/jakob/.local/lib/python3.13/site-packages/coverage/control.py", line 898, in get_data
+    if self._collector.flush_data():
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/jakob/.local/lib/python3.13/site-packages/coverage/collector.py", line 488, in flush_data
+    self.covdata.add_lines(self.mapped_file_dict(line_data))
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jakob/.local/lib/python3.13/site-packages/coverage/sqldata.py", line 123, in _wrapped
+    return method(self, *args, **kwargs)
+  File "/home/jakob/.local/lib/python3.13/site-packages/coverage/sqldata.py", line 494, in add_lines
+    self._choose_lines_or_arcs(lines=True)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/jakob/.local/lib/python3.13/site-packages/coverage/sqldata.py", line 563, in _choose_lines_or_arcs
+    with self._connect() as con:
+         ~~~~~~~~~~~~~^^
+  File "/home/jakob/.local/lib/python3.13/site-packages/coverage/sqldata.py", line 343, in _connect
+    self._open_db()
+    ~~~~~~~~~~~~~^^
+  File "/home/jakob/.local/lib/python3.13/site-packages/coverage/sqldata.py", line 286, in _open_db
+    self._read_db()
+    ~~~~~~~~~~~~~^^
+  File "/home/jakob/.local/lib/python3.13/site-packages/coverage/sqldata.py", line 296, in _read_db
+    self._init_db(db)
+    ~~~~~~~~~~~~~^^^^
+  File "/home/jakob/.local/lib/python3.13/site-packages/coverage/sqldata.py", line 325, in _init_db
+    db.executescript(SCHEMA)
+    ~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/home/jakob/.local/lib/python3.13/site-packages/coverage/sqlitedb.py", line 226, in executescript
+    self.con.executescript(script).close()
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+sqlite3.OperationalError: database is locked</error></testcase></testsuite></testsuites>

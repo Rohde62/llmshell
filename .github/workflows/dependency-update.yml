@@ -1,0 +1,42 @@
+name: Weekly Dependency Update
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'  # Every Monday at 9 AM UTC
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  update-dependencies:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install pip-tools
+      run: |
+        python -m pip install --upgrade pip
+        pip install pip-tools
+    
+    - name: Update dependencies
+      run: |
+        pip-compile --upgrade pyproject.toml
+        pip-compile --upgrade --extra dev pyproject.toml
+    
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: "chore: update dependencies"
+        title: "chore: weekly dependency update"
+        body: |
+          Automated dependency update created by GitHub Actions.
+          
+          Please review the changes and ensure tests pass before merging.
+        branch: dependency-updates
+        delete-branch: true

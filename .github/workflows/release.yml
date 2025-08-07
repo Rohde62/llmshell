@@ -1,0 +1,182 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e ".[dev,test]"
+    
+    - name: Run comprehensive tests
+      run: |
+        python scripts/test_runner.py --no-integration
+
+  build:
+    needs: test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            formats: "wheel sdist deb"
+          - os: macos-latest
+            formats: "wheel homebrew"
+          - os: windows-latest
+            formats: "wheel"
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    
+    - name: Install build dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e ".[build]"
+    
+    - name: Build packages
+      run: |
+        python scripts/build.py --formats ${{ matrix.formats }} --no-tests
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: dist-${{ matrix.os }}
+        path: dist/
+
+  create-release:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    outputs:
+      release-id: ${{ steps.create-release.outputs.id }}
+      upload-url: ${{ steps.create-release.outputs.upload_url }}
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Get version from tag
+      id: get-version
+      run: echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+    
+    - name: Generate release notes
+      id: generate-notes
+      run: |
+        # Extract release notes from CHANGELOG.md
+        sed -n "/## \[${{ steps.get-version.outputs.version }}\]/,/## \[/p" CHANGELOG.md | head -n -1 > release-notes.md
+        echo "notes<<EOF" >> $GITHUB_OUTPUT
+        cat release-notes.md >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+    
+    - name: Create Release
+      id: create-release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.get-version.outputs.version }}
+        release_name: LLMShell ${{ steps.get-version.outputs.version }}
+        body: ${{ steps.generate-notes.outputs.notes }}
+        draft: false
+        prerelease: ${{ contains(steps.get-version.outputs.version, 'rc') || contains(steps.get-version.outputs.version, 'beta') || contains(steps.get-version.outputs.version, 'alpha') }}
+
+  upload-assets:
+    needs: create-release
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3
+      with:
+        path: artifacts/
+    
+    - name: Upload release assets
+      run: |
+        for artifact_dir in artifacts/*/; do
+          for file in "$artifact_dir"*; do
+            if [ -f "$file" ]; then
+              filename=$(basename "$file")
+              echo "Uploading $filename..."
+              curl -X POST \
+                -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+                -H "Content-Type: application/octet-stream" \
+                --data-binary @"$file" \
+                "${{ needs.create-release.outputs.upload-url }}?name=$filename"
+            fi
+          done
+        done
+
+  publish-pypi:
+    needs: [create-release, build]
+    runs-on: ubuntu-latest
+    environment: release
+    
+    steps:
+    - name: Download Ubuntu artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: dist-ubuntu-latest
+        path: dist/
+    
+    - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        packages-dir: dist/
+
+  publish-homebrew:
+    needs: [create-release, build]
+    runs-on: macos-latest
+    if: ${{ !(contains(github.ref, 'rc') || contains(github.ref, 'beta') || contains(github.ref, 'alpha')) }}
+    
+    steps:
+    - name: Download macOS artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: dist-macos-latest
+        path: dist/
+    
+    - name: Update Homebrew formula
+      run: |
+        # This would typically push to a homebrew-tap repository
+        echo "Homebrew formula updated (placeholder)"
+        # In a real implementation, you would:
+        # 1. Clone your homebrew-tap repository
+        # 2. Update the formula with new version and checksums
+        # 3. Commit and push the changes
+
+  notify-release:
+    needs: [publish-pypi, upload-assets]
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Get version from tag
+      id: get-version
+      run: echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+    
+    - name: Notify release
+      run: |
+        echo "🚀 LLMShell ${{ steps.get-version.outputs.version }} has been released!"
+        echo "📦 Available on PyPI: https://pypi.org/project/llmshell/"
+        echo "📋 Release notes: https://github.com/jakobr-dev/llmshell/releases/tag/${{ steps.get-version.outputs.version }}"
